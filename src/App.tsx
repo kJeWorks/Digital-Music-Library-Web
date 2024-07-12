@@ -6,11 +6,14 @@ import { useState } from "react";
 import { PAGES } from "./utils/constants";
 
 function App() {
-  const [pages, setPages] = useState<Array<PageType>>(PAGES as PageType[]);
+  const sessionStoragePages = sessionStorage.getItem('pages');
+  const [pages, setPages] = useState<Array<PageType>>(
+    sessionStoragePages ? JSON.parse(sessionStoragePages) : PAGES,
+  );
 
   return (
     <BrowserRouter>
-      <Navbar pages={pages} setPages={setPages} />
+      <Navbar pages={pages} setPages={setPages}/>
       <Routes>
         <Route path="/" element={<Home />} />
       </Routes>

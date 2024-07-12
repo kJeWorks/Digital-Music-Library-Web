@@ -1,13 +1,19 @@
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
-export default function Logo() {
+type Props = {
+  pathname: string;
+}
+
+export default function Logo(props: Props) {
+  const { pathname } = props;
+
   return (
     <>
       <Typography 
         variant='h4' 
         sx={{ 
           fontWeight: 700,
-          color: '#403D39'
+          color: pathname==="/" ? "#FFFCF2" : "#403D39"
         }}
       >
         V
@@ -21,7 +27,7 @@ export default function Logo() {
           letterSpacing: '.3rem',
           textDecoration: 'none',
           alignSelf: 'center',
-          color: '#403D39'
+          color: pathname==="/" ? "#FFFCF2" : "#403D39"
         }}
       >
         ibe

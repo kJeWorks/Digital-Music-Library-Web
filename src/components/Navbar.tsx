@@ -1,10 +1,11 @@
 import { AppBar, Box, Button, Container, IconButton, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu.js';
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SideDrawer from './SideDrawer';
 import { PageType } from '../types/PageType';
 import Logo from './Logo';
+import { isEqual } from 'lodash';
 
 type Props = {
   pages: Array<PageType>;
@@ -16,6 +17,7 @@ export default function Navbar(props: Props) {
   const { pages, setPages } = props;
   const [drawerState, setDrawerState] = useState(false);
   const navigate = useNavigate();
+  const path = useLocation();
 
   const handleOpenDrawer = () => {
     setDrawerState(true);
@@ -23,6 +25,7 @@ export default function Navbar(props: Props) {
 
   const handleCloseDrawer = (path: string | null) => {
     if (path) {
+      handlePageChange(path);
       navigate(path);
     }
     setDrawerState(false);
@@ -33,21 +36,38 @@ export default function Navbar(props: Props) {
       ...page,
       active: page.path === path,
     }));
-    // sessionStorage.setItem('pages', JSON.stringify(updatedPages));
+    sessionStorage.setItem('pages', JSON.stringify(updatedPages));
     setPages(updatedPages);
   };
 
+  useEffect(() => {
+    const updatedPages = pages.map((page, index) => ({
+      ...page,
+      name: pages[index].name,
+    }));
+
+    if (!isEqual(updatedPages, pages)) {
+      sessionStorage.setItem('pages', JSON.stringify(updatedPages));
+      setPages(updatedPages);
+    }
+  }, [pages]);
+
   return (
-    <AppBar position="static" sx={{ backgroundColor: "white" }}>
+    <AppBar 
+      position="absolute" 
+      sx={{ 
+        background: 
+          path.pathname==="/" ? "linear-gradient(to bottom, rgba(37, 36, 34, 0.8), rgba(204, 197, 185, 0.1))" : "#FFFCF2"
+      }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Link to="/" style={{ textDecoration: 'none', color: "black"}}>
+          <Link to="/" onClick={() => handlePageChange('/')} style={{ textDecoration: 'none', color: "black"}}>
             <Box 
               sx={{ 
                 display: { xs: 'none', md: 'flex' },
               }}
             >
-              <Logo />
+              <Logo pathname={path.pathname} />
             </Box>
           </Link>
 
@@ -68,7 +88,7 @@ export default function Navbar(props: Props) {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenDrawer}
-              sx={{ color: '#403D39' }}
+              sx={{ color: path.pathname==="/" ? "#FFFCF2" : "#403D39" }}
             >
               <MenuIcon />
             </IconButton>
@@ -81,6 +101,7 @@ export default function Navbar(props: Props) {
 
           <Link
             to="/"
+            onClick={() => handlePageChange('/')}
             style={{ textDecoration: 'none', flexGrow: 1 }}
           >
             <Box 
@@ -88,7 +109,7 @@ export default function Navbar(props: Props) {
                 display: { xs: 'flex', md: 'none' },
               }}
             >
-              <Logo />
+              <Logo pathname={path.pathname} />
             </Box>
           </Link>
 
@@ -100,6 +121,10 @@ export default function Navbar(props: Props) {
                 sx={{ 
                   my: 2, 
                   display: 'block',
+                  '&:hover': {
+                    color: "#EB5E28",
+                    backgroundColor: "transparent"
+                  }
                 }}
               >
                 <Typography
@@ -110,8 +135,12 @@ export default function Navbar(props: Props) {
                     fontWeight: 400,
                     letterSpacing: '.5rem',
                     textDecoration: 'none',
-                    color: '#403D39',
-                    ml: 3
+                    color: page.active ? "#EB5E28" : path.pathname==="/" ? "#FFFCF2" : "#403D39",
+                    ml: 3,
+                    '&:hover': {
+                      color: "#EB5E28",
+                      backgroundColor: "transparent"
+                    }
                   }}
                 >
                   {page.name}
