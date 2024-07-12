@@ -27,6 +27,11 @@ export default function SideDrawer(props: Props) {
         anchor="left"
         open={drawerState}
         onClose={() => setPath(null)}
+        sx={{
+          '& .MuiDrawer-paper': {
+            backgroundColor: '#FFFCF2'
+          },
+        }}
       >
         <Box sx={{ width: 250 }} role="presentation" onClick={() => setPath(null)} onKeyDown={() => setPath(null)}>
           <ListItem key="close" disablePadding>

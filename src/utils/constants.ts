@@ -15,3 +15,5 @@ export const PAGES = [
     active: false,
   },
 ];
+
+export const serverUrl = 'http://192.168.0.106:3001'

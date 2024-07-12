@@ -54,10 +54,11 @@ export default function Navbar(props: Props) {
 
   return (
     <AppBar 
-      position="absolute" 
+      position={path.pathname==="/" ? "fixed" : "static"}
       sx={{ 
         background: 
-          path.pathname==="/" ? "linear-gradient(to bottom, rgba(37, 36, 34, 0.8), rgba(204, 197, 185, 0.1))" : "#FFFCF2"
+          path.pathname==="/" ? "linear-gradient(to bottom, rgba(37, 36, 34, 0.8), rgba(204, 197, 185, 0.1))" : "#FFFCF2",
+        zIndex: 3,
       }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
