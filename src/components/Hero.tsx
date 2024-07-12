@@ -1,7 +1,15 @@
 import { useTheme } from '@mui/material/styles';
 import { Box, Button, Container, Typography, useMediaQuery } from "@mui/material";
+import { PageType } from '../types/PageType';
+import { Link } from 'react-router-dom';
 
-export default function Hero() {
+type Props = {
+  pages: Array<PageType>;
+  setPages(pages: Array<PageType>): void;
+};
+
+export default function Hero(props: Props) {
+  const { pages, setPages } = props;
   const theme = useTheme();
 
   const isLg = useMediaQuery(theme.breakpoints.up('xl'));
@@ -26,6 +34,15 @@ export default function Hero() {
     secondaryVariant = "body1"
   }
 
+  const handlePageChange = (path: string) => {
+    const updatedPages = pages.map((page) => ({
+      ...page,
+      active: page.path === path,
+    }));
+    sessionStorage.setItem('pages', JSON.stringify(updatedPages));
+    setPages(updatedPages);
+  };
+
   return (
     <Box sx={{ backgroundColor: '#403D39', height: { sm: '100svh', xs: '145svh' } }}>
       <Container 
@@ -34,7 +51,6 @@ export default function Hero() {
           position: 'relative',
           width: '100%',
           height: { sm: '100svh', xs: '110svh'},
-          // p: { md: '0 24px', sm: '0 24px', xs: '20% 24px 70% 24px' }
         }}
       >
         <Box
@@ -80,16 +96,19 @@ export default function Hero() {
                 <Button
                   sx={{
                     backgroundColor: '#EB5E28',
-                    color: '#FFFCF2',
                     display: 'block',
                     fontSize: { xl: '1.2em', md: '1em', xs: '0.8em' },
                     fontFamily: 'monospace',
                     '&:hover': {
                       backgroundColor: '#C24C1E',
                     },
+                    py: { md: 1.5 }
                   }}
+                  onClick={() => handlePageChange('/songs')}
                 >
-                  Top Songs
+                  <Link to="/songs" style={{ textDecoration: 'none', color: '#FFFCF2' }}>
+                    Top Songs
+                  </Link>
                 </Button>
                 <Button
                   sx={{
@@ -103,8 +122,11 @@ export default function Hero() {
                     },
                     ml: 4
                   }}
+                  onClick={() => handlePageChange('/artists')}
                 >
-                  Best Artists
+                  <Link to="/artists" style={{ textDecoration: 'none', color: '#403D39' }}>
+                    Best Artists
+                  </Link>
                 </Button>
               </Box>
             </Box>

@@ -13,9 +13,9 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navbar pages={pages} setPages={setPages}/>
+      <Navbar pages={pages} setPages={setPages} />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home pages={pages} setPages={setPages} />} />
       </Routes>
     </BrowserRouter>
   );

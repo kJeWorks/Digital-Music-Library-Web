@@ -1,10 +1,18 @@
 import { Box } from "@mui/material";
 import Hero from "../components/Hero";
+import { PageType } from "../types/PageType";
 
-export default function Home() {
+type Props = {
+  pages: Array<PageType>;
+  setPages(pages: Array<PageType>): void;
+};
+
+export default function Home(props: Props) {
+  const { pages, setPages } = props;
+
   return (
     <Box>
-      <Hero />
+      <Hero pages={pages} setPages={setPages} />
     </Box>
   );
 };
