@@ -1,6 +1,8 @@
-import { Container, TextField } from "@mui/material";
+import { CircularProgress, Container, TextField } from "@mui/material";
 import useArtists from "../hooks/useArtists";
 import { useState } from "react";
+import ArtistList from "../components/ArtistList";
+import { Artist } from "../types/ArtistType";
 
 export default function Artists() {
   const [query, setQuery] = useState<string>('Rammstein');
@@ -34,6 +36,8 @@ export default function Artists() {
         fullWidth
         onChange={(e) => setQuery(e.target.value)}
       />
+      {isLoading && <CircularProgress />}
+      <ArtistList artists={data as Artist[]} />
     </Container>
   ) 
 }
