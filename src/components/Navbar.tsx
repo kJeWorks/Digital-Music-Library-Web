@@ -1,0 +1,126 @@
+import { AppBar, Box, Button, Container, IconButton, Toolbar, Typography } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu.js';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import SideDrawer from './SideDrawer';
+import { PageType } from '../types/PageType';
+import Logo from './Logo';
+
+type Props = {
+  pages: Array<PageType>;
+  setPages: (pages: Array<PageType>) => void;
+};
+
+
+export default function Navbar(props: Props) {
+  const { pages, setPages } = props;
+  const [drawerState, setDrawerState] = useState(false);
+  const navigate = useNavigate();
+
+  const handleOpenDrawer = () => {
+    setDrawerState(true);
+  };
+
+  const handleCloseDrawer = (path: string | null) => {
+    if (path) {
+      navigate(path);
+    }
+    setDrawerState(false);
+  };
+
+  const handlePageChange = (path: string) => {
+    const updatedPages = pages.map((page) => ({
+      ...page,
+      active: page.path === path,
+    }));
+    // sessionStorage.setItem('pages', JSON.stringify(updatedPages));
+    setPages(updatedPages);
+  };
+
+  return (
+    <AppBar position="static" sx={{ backgroundColor: "white" }}>
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <Link to="/" style={{ textDecoration: 'none', color: "black"}}>
+            <Box 
+              sx={{ 
+                display: { xs: 'none', md: 'flex' },
+              }}
+            >
+              <Logo />
+            </Box>
+          </Link>
+
+          <Container
+            sx={{
+              position: 'absolute',
+              height: '5px',
+              width: '130px',
+              bottom: 0,
+              display: { xs: 'none', md: 'block' },
+            }}
+          />
+
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenDrawer}
+              sx={{ color: '#403D39' }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <SideDrawer
+              drawerState={drawerState}
+              closeDrawer={handleCloseDrawer}
+              pages={pages}
+            />
+          </Box>
+
+          <Link
+            to="/"
+            style={{ textDecoration: 'none', flexGrow: 1 }}
+          >
+            <Box 
+              sx={{ 
+                display: { xs: 'flex', md: 'none' },
+              }}
+            >
+              <Logo />
+            </Box>
+          </Link>
+
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'right' }}>
+            {pages.map((page) => (
+              <Button
+                key={page.name}
+                onClick={() => handleCloseDrawer(page.path)}
+                sx={{ 
+                  my: 2, 
+                  display: 'block',
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  noWrap
+                  sx={{
+                    fontFamily: 'monospace',
+                    fontWeight: 400,
+                    letterSpacing: '.5rem',
+                    textDecoration: 'none',
+                    color: '#403D39',
+                    ml: 3
+                  }}
+                >
+                  {page.name}
+                </Typography>
+              </Button>
+            ))}
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
+  );
+}
