@@ -1,5 +1,7 @@
-import { Avatar, Box, Divider, List, ListItem, ListItemAvatar, ListItemText } from "@mui/material";
+import { Avatar, Box, Divider, List, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
 import { Artist } from "../types/ArtistType"
+import { Link } from "react-router-dom";
+import React from "react";
 
 type Props = {
   artists: Array<Artist>;
@@ -18,16 +20,32 @@ export default function ArtistList(props: Props) {
                 <Avatar alt="artist-logo" src="/artist.png" />
               </ListItemAvatar>
               <ListItemText
-                primary={artist.name}
-                sx={{
-                  fontFamily: 'monospace',
-                  color: '#403D39',
-                  '& :hover': {
-                    color: '#EB5E28',
-                    cursor: 'pointer'
-                  },
-                  mt: 2
-                }}
+                primary={
+                  <React.Fragment>
+                    <Link 
+                      to={`/artists/${artist.id}`} 
+                      style={{ 
+                        textDecoration: 'none', 
+                      }}
+                      >
+                      <Typography
+                        sx={{
+                          fontFamily: 'monospace',
+                          color: '#403D39',
+                        }}
+                      >
+                        {artist.name}
+                      </Typography>
+                    </Link>
+                  </React.Fragment>
+                }
+              sx={{ 
+                mt: 2, 
+                '& :hover': {
+                  color: '#EB5E28',
+                  cursor: 'pointer'
+                },
+              }}
               />
             </ListItem>
             <Divider variant="inset" component="li"/>

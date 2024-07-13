@@ -7,6 +7,7 @@ import { PAGES } from "./utils/constants";
 import Artists from "./pages/Artists";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Albums from "./pages/Albums";
+import ArtistDetails from "./pages/ArtistDetails";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -30,6 +31,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home pages={pages} setPages={setPages} />} />
           <Route path="/artists" element={<Artists />} />
+          <Route path="/artists/:id" element={<ArtistDetails />} />
           <Route path="/albums" element={<Albums />} />
         </Routes>
       </BrowserRouter>
