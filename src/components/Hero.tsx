@@ -106,8 +106,8 @@ export default function Hero(props: Props) {
                   }}
                   onClick={() => handlePageChange('/songs')}
                 >
-                  <Link to="/songs" style={{ textDecoration: 'none', color: '#FFFCF2' }}>
-                    Top Songs
+                  <Link to="/albums" style={{ textDecoration: 'none', color: '#FFFCF2' }}>
+                    Top Albums
                   </Link>
                 </Button>
                 <Button

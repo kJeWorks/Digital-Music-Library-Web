@@ -1,6 +1,5 @@
-import { Avatar, Box, Divider, List, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
+import { Avatar, Box, Divider, List, ListItem, ListItemAvatar, ListItemText } from "@mui/material";
 import { Artist } from "../types/ArtistType"
-import React from "react";
 
 type Props = {
   artists: Array<Artist>;
@@ -21,7 +20,13 @@ export default function ArtistList(props: Props) {
               <ListItemText
                 primary={artist.name}
                 sx={{
-                  color: '#EB5E28'
+                  fontFamily: 'monospace',
+                  color: '#403D39',
+                  '& :hover': {
+                    color: '#EB5E28',
+                    cursor: 'pointer'
+                  },
+                  mt: 2
                 }}
               />
             </ListItem>
