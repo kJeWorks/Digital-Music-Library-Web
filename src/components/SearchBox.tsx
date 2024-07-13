@@ -3,18 +3,19 @@ import { TextField } from "@mui/material";
 type Props = {
   setQuery: (query: string) => void;
   label: string;
+  query: string;
 }
 
 export default function SearchBox(props: Props) {
-  const { setQuery, label } = props;
+  const { setQuery, label, query } = props;
   
   return (
     <TextField
       id="standard-basic" 
-      label={label} 
+      label={query ? '' : label} 
       variant="standard"
       sx={{
-        mt: 5,
+        mt: 2,
         '& .MuiFormLabel-root': {
           color: "#403D39",
         },
@@ -32,6 +33,7 @@ export default function SearchBox(props: Props) {
         },
       }}
       fullWidth
+      value={query}
       onChange={(e) => setQuery(e.target.value)}
     />
   );
