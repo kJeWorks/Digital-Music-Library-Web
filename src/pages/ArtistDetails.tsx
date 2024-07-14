@@ -1,5 +1,5 @@
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useArtist from "../hooks/useArtist";
 
 export default function ArtistDetails() {
@@ -38,7 +38,11 @@ export default function ArtistDetails() {
               >
                 <Typography variant="body1" sx={{ color: '#403D39', fontWeight: 300 }}>Album Title</Typography>
                 <Typography variant="h6" sx={{ color: '#403D39', fontWeight: 600 }}>{album.title}</Typography>
-                <Button size="small" sx={{ color: '#EB5E28' }}>See more</Button>
+                <Link to={`/albums/${album.id}`} style={{ textDecoration: 'none' }}>
+                  <Button size="small" sx={{ color: '#EB5E28' }}>
+                    View Album
+                  </Button>
+                </Link>
               </Box>
             </Grid>
           ))}

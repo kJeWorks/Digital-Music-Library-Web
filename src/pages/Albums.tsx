@@ -12,7 +12,7 @@ export default function Albums() {
   console.log(data)
   return (
     <Container maxWidth='xl'>
-      <SearchBox setQuery={setQuery} label="Type in an album name... (ex. Fearless)"/>
+      <SearchBox setQuery={setQuery} label="Type in an album name... (ex. Fearless)" query={query} />
       {isLoading && <CircularProgress />}
       <AlbumList albums={data as Album[]} />
     </Container>
