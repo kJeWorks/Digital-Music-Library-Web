@@ -1,13 +1,19 @@
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import useArtist from "../hooks/useArtist";
+import { useState } from "react";
+import ManageButtons from "../components/ManageButtons";
 
 export default function ArtistDetails() {
   const { id } = useParams() as { id: string };
   const { data, isLoading, isError, error } = useArtist(+id);
+  const [editMode, setEditMode] = useState(false);
 
   return (
     <Container maxWidth="xl">
+      <Box sx={{ width: '100%' }}>
+        <ManageButtons id={id} setEdit={setEditMode} manageType="artist" />
+      </Box>
       <Box width="100%" sx={{ mt: 5 }}>
         <Typography 
           variant="h3" 

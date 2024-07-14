@@ -15,3 +15,8 @@ export async function createAlbum(album: AlbumForm) {
   const res = await api.post<AlbumForm>('/albums', album);
   return res.data;
 }
+
+export async function deleteAlbum(id: number) {
+  const res = await api.delete<Album>(`/albums/${id}`);
+  return res.data;
+}

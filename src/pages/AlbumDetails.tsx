@@ -1,13 +1,19 @@
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import useAlbum from "../hooks/useAlbum";
+import ManageButtons from "../components/ManageButtons";
+import { useState } from "react";
 
 export default function AlbumDetails() {
   const { id } = useParams() as { id: string };
   const { data, isLoading, isError, error } = useAlbum(+id);
+  const [editMode, setEditMode] = useState(false);
 
   return (
     <Container maxWidth="xl">
+      <Box sx={{ width: '100%' }}>
+        <ManageButtons id={id} setEdit={setEditMode} manageType="album" />
+      </Box>
       <Box width="100%" sx={{ mt: 5 }}>
         <Typography
           variant="h3" 

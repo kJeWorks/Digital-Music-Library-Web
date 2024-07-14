@@ -15,3 +15,8 @@ export async function fetchArtist(id: number) {
   const res = await api.get<ArtistDetails>(`/bands/${id}`);
   return res.data;
 }
+
+export async function deleteArtist(id: number) {
+  const res = await api.delete<Artist>(`/bands/${id}`);
+  return res.data;
+}
