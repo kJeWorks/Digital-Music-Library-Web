@@ -6,8 +6,6 @@ export default function ArtistDetails() {
   const { id } = useParams() as { id: string };
   const { data, isLoading, isError, error } = useArtist(+id);
 
-  console.log(data)
-
   return (
     <Container maxWidth="xl">
       <Box width="100%" sx={{ mt: 5 }}>
@@ -27,7 +25,17 @@ export default function ArtistDetails() {
         <Grid container columnSpacing={7} rowSpacing={1}>
           {data?.albums.map((album) => (
             <Grid key={album.id} item xs={12} sm={6} md={4} lg={3}>
-              <Box sx={{ backgroundColor: '#D0CEC6', p: 2 }}>
+              <Box 
+                sx={{ 
+                  border: '2px solid #D0CEC6', 
+                  borderRadius: '5px', 
+                  p: 2,
+                  '&:hover': {
+                    borderColor: '#EB5E28',
+                    transition: 'border-color 0.5s',
+                  }
+                }}
+              >
                 <Typography variant="body1" sx={{ color: '#403D39', fontWeight: 300 }}>Album Title</Typography>
                 <Typography variant="h6" sx={{ color: '#403D39', fontWeight: 600 }}>{album.title}</Typography>
                 <Button size="small" sx={{ color: '#EB5E28' }}>See more</Button>
