@@ -14,3 +14,9 @@ export type AlbumDetails = {
   description: string;
   songs: Song[];
 }
+
+export type AlbumForm = {
+  title: string;
+  description: string;
+  bandId: number;
+}

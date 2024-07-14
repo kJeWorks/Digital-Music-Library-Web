@@ -23,6 +23,7 @@ export default function Artists() {
             '&:hover': {
               backgroundColor: '#C24C1E',
             },
+            width: { xs: '100%', sm: 'auto' }
           }}
           onClick={() => setEditMode(true)}
         >

@@ -1,4 +1,4 @@
-import { Album, AlbumDetails } from "../types/AlbumType";
+import { Album, AlbumDetails, AlbumForm } from "../types/AlbumType";
 import { api } from "./axios";
 
 export async function fetchAllAlbums(query: string) {
@@ -8,5 +8,10 @@ export async function fetchAllAlbums(query: string) {
 
 export async function fetchAlbum(id: number) {
   const res = await api.get<AlbumDetails>(`/albums/${id}`);
+  return res.data;
+}
+
+export async function createAlbum(album: AlbumForm) {
+  const res = await api.post<AlbumForm>('/albums', album);
   return res.data;
 }

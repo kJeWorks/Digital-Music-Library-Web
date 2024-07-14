@@ -20,14 +20,14 @@ export default function CreateArtistForm(props: Props) {
   });
 
   return (
-    <Box width="100%" sx={{ mt: 5, display: 'flex' }} >
+    <Box width="100%" sx={{ mt: 5, display: { sm:'flex', xs: 'block' } }} >
       <TextField
         id="artist-name"
         label="Artist Name"
         variant="outlined"
         sx={{
-          mr: 3,
-          width: '50%',
+          mr: { xs: 0, sm: 3},
+          width: { xs: '100%', sm: '50%' },
           '& .MuiFormLabel-root': {
             color: "#403D39",
           },
@@ -43,6 +43,7 @@ export default function CreateArtistForm(props: Props) {
         }}
         onChange={(e) => setArtistName(e.target.value)}
         defaultValue={artistName}
+        required
       />
       {
         isPending && <CircularProgress />
@@ -50,13 +51,15 @@ export default function CreateArtistForm(props: Props) {
       <Button
         variant="contained" 
         sx={{ 
-          mr: 3,
+          mr: { xs: 0, sm: 3},
           backgroundColor: '#EB5E28',
           display: 'block',
           fontFamily: 'monospace',
           '&:hover': {
             backgroundColor: '#C24C1E',
           },
+          width: { xs: '100%', sm: 'auto' },
+          mt: { xs: 3, sm: 0 }
         }}
         onClick={() => mutate(artistName)}
       >
