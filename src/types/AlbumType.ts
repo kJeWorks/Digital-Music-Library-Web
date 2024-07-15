@@ -20,3 +20,11 @@ export type AlbumForm = {
   description: string;
   bandId: number;
 }
+
+export type AlbumUpdate = {
+  id: number;
+  title: string;
+  description: string;
+  bandId: number;
+  songs: Song[];
+}

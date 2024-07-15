@@ -1,4 +1,4 @@
-import { Album, AlbumDetails, AlbumForm } from "../types/AlbumType";
+import { Album, AlbumDetails, AlbumForm, AlbumUpdate } from "../types/AlbumType";
 import { api } from "./axios";
 
 export async function fetchAllAlbums(query: string) {
@@ -18,5 +18,10 @@ export async function createAlbum(album: AlbumForm) {
 
 export async function deleteAlbum(id: number) {
   const res = await api.delete<Album>(`/albums/${id}`);
+  return res.data;
+}
+
+export async function updateAlbum(album: AlbumUpdate) {
+  const res = await api.patch<AlbumDetails>(`/albums/${album.id}`, { title: album.title, description: album.description, bandId: album.bandId, songs: album.songs });
   return res.data;
 }

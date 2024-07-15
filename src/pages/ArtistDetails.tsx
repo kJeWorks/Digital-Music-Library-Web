@@ -12,7 +12,6 @@ export default function ArtistDetails() {
   const { data, isLoading, isError, error } = useArtist(+id);
   const [editMode, setEditMode] = useState<boolean>(false);
   const [artistName, setArtistName] = useState<string>('');
-  const [updatedSuccesfully, setUpdatedSuccesfully] = useState<boolean>(false);
 
   const { mutate, data: dataUpdate, isPending, isError: isErrorUpdate, error: errorUpdate } = useMutation({
     mutationFn: updateArtist,
