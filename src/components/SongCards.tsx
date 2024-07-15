@@ -1,12 +1,13 @@
 import { Box, Button, Grid, IconButton, TextField, Tooltip, Typography } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Song, SongDetails } from "../types/SongType";
+import { Song } from "../types/SongType";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { createSong, deleteSong, updateSong } from "../api/songs.api";
 import { queryClient } from "../App";
 import { useNavigate } from "react-router-dom";
+import InputField from "./InputField";
 
 type Props = {
   songs: Song[];
@@ -106,53 +107,25 @@ export default function SongCards(props: Props) {
                 updateSongId === song.id && (
                   <>
                     <Box sx={{ mt: 2 }}>
-                      <TextField
+                      <InputField
                         id="album-song-new-title"
                         label="Song Title"
-                        variant="outlined"
                         sx={{
-                          '& .MuiFormLabel-root': {
-                            color: "#403D39",
-                          },
-                          '& .MuiInputLabel-root.Mui-focused': {
-                            color: "#EB5E28",
-                          },
-                          '& .MuiOutlinedInput-notchedOutline': {
-                            borderColor: "#403D39",
-                          },
-                          '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                            borderColor: "#EB5E28",
-                          },
                           width: '100%',
                           mt: { xs: 3, md: 0 },
                         }}
-                        onChange={(e) => {setNewSongName(e.target.value)}}
+                        setFunction={setNewSongName}
                         value={newSongName.length ? newSongName : song.title}
-                        required
                       />
-                      <TextField
+                      <InputField
                         id="album-song-length"
                         label="Song length"
-                        variant="outlined"
                         sx={{
-                          '& .MuiFormLabel-root': {
-                            color: "#403D39",
-                          },
-                          '& .MuiInputLabel-root.Mui-focused': {
-                            color: "#EB5E28",
-                          },
-                          '& .MuiOutlinedInput-notchedOutline': {
-                            borderColor: "#403D39",
-                          },
-                          '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                            borderColor: "#EB5E28",
-                          },
                           width: '100%',
                           mt: 3,
                         }}
-                        onChange={(e) => {setNewSongLength(e.target.value)}}
+                        setFunction={setNewSongLength}
                         value={newSongLength.length > 0 ? newSongLength : song.length}
-                        required
                       />
                     </Box>
                     <Box sx={{ width: '100%', mt: 2 }}>

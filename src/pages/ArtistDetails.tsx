@@ -1,4 +1,4 @@
-import { Box, Button, Container, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useArtist from "../hooks/useArtist";
 import { useEffect, useState } from "react";
@@ -6,6 +6,7 @@ import ManageButtons from "../components/ManageButtons";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../App";
 import { updateArtist } from "../api/artists.api";
+import InputField from "../components/InputField";
 
 export default function ArtistDetails() {
   const { id } = useParams() as { id: string };
@@ -56,29 +57,15 @@ export default function ArtistDetails() {
       <Box width="100%" sx={{ mt: 5, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         {
           editMode && (
-            <TextField
+            <InputField
               id="artist-name"
               label="Artist Name"
-              variant="outlined"
               sx={{
-                '& .MuiFormLabel-root': {
-                  color: "#403D39",
-                },
-                '& .MuiInputLabel-root.Mui-focused': {
-                  color: "#EB5E28",
-                },
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: "#403D39",
-                },
-                '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: "#EB5E28",
-                },
                 width: { xs: '100%', md: '30%' },
                 mt: { xs: 3, md: 0 },
               }}
-              onChange={(e) => {setArtistName(e.target.value)}}
-              defaultValue={artistName}
-              required
+              setFunction={setArtistName}
+              value={artistName}
             />
           )
         }

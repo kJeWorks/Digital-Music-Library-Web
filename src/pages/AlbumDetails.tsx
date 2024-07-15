@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Button, Container, Grid, TextField, Typography } from "@mui/material";
+import { Autocomplete, Box, Button, Container, TextField, Typography } from "@mui/material";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useAlbum from "../hooks/useAlbum";
 import ManageButtons from "../components/ManageButtons";
@@ -10,6 +10,7 @@ import { updateAlbum } from "../api/albums.api";
 import { useMutation } from "@tanstack/react-query";
 import { Song } from "../types/SongType";
 import SongCards from "../components/SongCards";
+import InputField from "../components/InputField";
 
 export default function AlbumDetails() {
   const { id } = useParams() as { id: string };
@@ -75,29 +76,15 @@ export default function AlbumDetails() {
       <Box width="100%" sx={{ mt: 5, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       {
           editMode && (
-            <TextField
+            <InputField
               id="album-title"
               label="Album Title"
-              variant="outlined"
               sx={{
-                '& .MuiFormLabel-root': {
-                  color: "#403D39",
-                },
-                '& .MuiInputLabel-root.Mui-focused': {
-                  color: "#EB5E28",
-                },
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: "#403D39",
-                },
-                '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: "#EB5E28",
-                },
                 width: { xs: '100%', md: '30%' },
                 mt: { xs: 3, md: 0 },
               }}
-              onChange={(e) => {setAlbumName(e.target.value)}}
-              defaultValue={albumName}
-              required
+              setFunction={setAlbumName}
+              value={albumName}
             />
           )
         }
@@ -186,29 +173,15 @@ export default function AlbumDetails() {
         }
         {
           editMode && (
-            <TextField
+            <InputField
               id="album-description"
               label="Description"
-              variant="outlined"
               sx={{
-                '& .MuiFormLabel-root': {
-                  color: "#403D39",
-                },
-                '& .MuiInputLabel-root.Mui-focused': {
-                  color: "#EB5E28",
-                },
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: "#403D39",
-                },
-                '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: "#EB5E28",
-                },
                 width: '100%',
                 mt: { xs: 3, md: 0 },
               }}
-              onChange={(e) => {setDescription(e.target.value)}}
-              defaultValue={description}
-              required
+              setFunction={setDescription}
+              value={description}
             />
           )
         }

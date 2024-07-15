@@ -1,8 +1,9 @@
-import { Box, Button, CircularProgress, TextField } from "@mui/material";
+import { Box, Button, CircularProgress } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { queryClient } from "../App";
 import { createArtist } from "../api/artists.api";
+import InputField from "./InputField";
 
 type Props = {
   setEditMode(editMode: boolean): void;
@@ -21,29 +22,15 @@ export default function CreateArtistForm(props: Props) {
 
   return (
     <Box width="100%" sx={{ mt: 5, display: { sm:'flex', xs: 'block' } }} >
-      <TextField
+      <InputField
         id="artist-name"
         label="Artist Name"
-        variant="outlined"
         sx={{
           mr: { xs: 0, sm: 3},
           width: { xs: '100%', sm: '50%' },
-          '& .MuiFormLabel-root': {
-            color: "#403D39",
-          },
-          '& .MuiInputLabel-root.Mui-focused': {
-            color: "#EB5E28",
-          },
-          '& .MuiOutlinedInput-notchedOutline': {
-            borderColor: "#403D39",
-          },
-          '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: "#EB5E28",
-          },
         }}
-        onChange={(e) => setArtistName(e.target.value)}
-        defaultValue={artistName}
-        required
+        setFunction={setArtistName}
+        value={artistName}
       />
       {
         isPending && <CircularProgress />

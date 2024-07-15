@@ -1,10 +1,11 @@
 import { Autocomplete, Box, Button, CircularProgress, TextField } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { queryClient } from "../App";
 import { createAlbum } from "../api/albums.api";
 import useArtists from "../hooks/useArtists";
 import { Artist } from "../types/ArtistType";
+import InputField from "./InputField";
 
 type Props = {
   setEditMode: (editMode: boolean) => void;
@@ -26,54 +27,26 @@ export default function CreateAlbumForm(props: Props) {
 
   return (
     <Box width="100%" sx={{ mt: 5, display: { sm:'flex', xs: 'block' } }} >
-      <TextField
+      <InputField
         id="album-title"
         label="Album Title"
-        variant="outlined"
         sx={{
           mr: { xs: 0, sm: 3},
-          '& .MuiFormLabel-root': {
-            color: "#403D39",
-          },
-          '& .MuiInputLabel-root.Mui-focused': {
-            color: "#EB5E28",
-          },
-          '& .MuiOutlinedInput-notchedOutline': {
-            borderColor: "#403D39",
-          },
-          '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: "#EB5E28",
-          },
           width: { xs: '100%', sm: '25%' }
         }}
-        onChange={(e) => {setAlbumTitle(e.target.value)}}
-        defaultValue={''}
-        required
+        setFunction={setAlbumTitle}
+        value={albumTitle}
       />
-      <TextField
+      <InputField
         id="album-description"
         label="Album Description"
-        variant="outlined"
         sx={{
           mr: { xs: 0, sm: 3},
-          '& .MuiFormLabel-root': {
-            color: "#403D39",
-          },
-          '& .MuiInputLabel-root.Mui-focused': {
-            color: "#EB5E28",
-          },
-          '& .MuiOutlinedInput-notchedOutline': {
-            borderColor: "#403D39",
-          },
-          '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: "#EB5E28",
-          },
           width: { xs: '100%', sm: '40%' },
           mt: { xs: 3, sm: 0 }
         }}
-        onChange={(e) => {setDescription(e.target.value)}}
-        defaultValue={''}
-        required
+        setFunction={setDescription}
+        value={description}
       />
       <Autocomplete
         disablePortal
