@@ -12,8 +12,15 @@ import { Song } from "../types/SongType";
 import SongCards from "../components/SongCards";
 import InputField from "../components/InputField";
 import InfoSnackBar from "../components/InfoSnackBar";
+import { PageType } from "../types/PageType";
 
-export default function AlbumDetails() {
+type Props = {
+  pages: PageType[];
+  setPages: (pages: PageType[]) => void;
+}
+
+export default function AlbumDetails(props: Props) {
+  const { pages, setPages } = props;
   const { id } = useParams() as { id: string };
   const { data, isLoading, isError } = useAlbum(+id);
   const [editMode, setEditMode] = useState(false);
@@ -56,6 +63,15 @@ export default function AlbumDetails() {
     setDescription(data?.description || '');
     setBand(data ? data.band : {} as Artist);
   }
+
+  const handlePageChange = (path: string) => {
+    const updatedPages = pages.map((page) => ({
+      ...page,
+      active: page.path === path,
+    }));
+    sessionStorage.setItem('pages', JSON.stringify(updatedPages));
+    setPages(updatedPages);
+  };
 
   return (
     <Container maxWidth="xl">
@@ -149,7 +165,7 @@ export default function AlbumDetails() {
                       <Typography variant="body2" sx={{ mt: '0.5em', mr: 1 }}>
                         by
                       </Typography>
-                      <Link to={`/artists/${data?.band.id}`} style={{ color: '#403D39', textDecoration: 'none' }}>
+                      <Link onClick={() => handlePageChange('/artists')} to={`/artists/${data?.band.id}`} style={{ color: '#403D39', textDecoration: 'none' }}>
                         <Typography variant="h6" sx={{ '&:hover': { color: '#EB5E28' } }}>
                           {band.name}
                         </Typography>

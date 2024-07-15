@@ -8,8 +8,15 @@ import { queryClient } from "../App";
 import { updateArtist } from "../api/artists.api";
 import InputField from "../components/InputField";
 import InfoSnackBar from "../components/InfoSnackBar";
+import { PageType } from "../types/PageType";
 
-export default function ArtistDetails() {
+type Props = {
+  pages: PageType[];
+  setPages: (pages: PageType[]) => void;
+}
+
+export default function ArtistDetails(props: Props) {
+  const { pages, setPages } = props;
   const { id } = useParams() as { id: string };
   const { data, isLoading, isError } = useArtist(+id);
   const [editMode, setEditMode] = useState<boolean>(false);
@@ -37,6 +44,15 @@ export default function ArtistDetails() {
     mutate({ id: +id, name: artistName });
     setEditMode(false);
   }
+
+  const handlePageChange = (path: string) => {
+    const updatedPages = pages.map((page) => ({
+      ...page,
+      active: page.path === path,
+    }));
+    sessionStorage.setItem('pages', JSON.stringify(updatedPages));
+    setPages(updatedPages);
+  };
 
   return (
     <Container maxWidth="xl">
@@ -128,7 +144,7 @@ export default function ArtistDetails() {
                       <Typography variant="body1" sx={{ color: '#403D39', fontWeight: 300 }}>Album Title</Typography>
                       <Typography variant="h6" sx={{ color: '#403D39', fontWeight: 600 }}>{album.title}</Typography>
                       <Link to={`/albums/${album.id}`} style={{ textDecoration: 'none' }}>
-                        <Button size="small" sx={{ color: '#EB5E28' }}>
+                        <Button onClick={() => handlePageChange('/albums')} size="small" sx={{ color: '#EB5E28' }}>
                           View Album
                         </Button>
                       </Link>

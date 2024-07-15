@@ -2,7 +2,7 @@ import { Box, Button, Grid, IconButton, TextField, Tooltip, Typography } from "@
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Song } from "../types/SongType";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { createSong, deleteSong, updateSong } from "../api/songs.api";
 import { queryClient } from "../App";
@@ -50,6 +50,12 @@ export default function SongCards(props: Props) {
     }
   });
   
+  const handleEditClick = (song: Song) => {
+    setUpdateSongId(song.id);
+    setNewSongName(song.title);
+    setNewSongLength(song.length);
+  }
+
   const handleCloseUpdate = () => {
     setUpdateSongId(null);
     setNewSongName('');
@@ -100,7 +106,7 @@ export default function SongCards(props: Props) {
               <Box sx={{ border: '2px solid #D0CEC6', borderRadius: '5px', p: 2 }}>
                 <Box sx={{ width: '100%', display: 'flex', alignItems: 'flex-end', flexDirection: 'row' }}>
                   <Tooltip title="Delete">
-                    <IconButton onClick={() => setUpdateSongId(song.id)}>
+                    <IconButton onClick={() => handleEditClick(song)}>
                       <EditIcon sx={{ color: '#403D39' }}/>
                     </IconButton>
                   </Tooltip>
@@ -136,7 +142,7 @@ export default function SongCards(props: Props) {
                             mt: { xs: 3, md: 0 },
                           }}
                           setFunction={setNewSongName}
-                          value={newSongName.length ? newSongName : song.title}
+                          value={newSongName}
                         />
                         <InputField
                           id="album-song-length"
@@ -146,7 +152,7 @@ export default function SongCards(props: Props) {
                             mt: 3,
                           }}
                           setFunction={setNewSongLength}
-                          value={newSongLength.length > 0 ? newSongLength : song.length}
+                          value={newSongLength}
                         />
                       </Box>
                       <Box sx={{ width: '100%', mt: 2 }}>
