@@ -41,7 +41,7 @@ export default function ManageButtons({ id, setEdit, manageType }: Props) {
   });
 
   return (
-    <Box sx={{ py: 3 }}>
+    <Box>
       <Button variant="contained" color="primary" onClick={() => setEdit(true)}>
         Edit
       </Button>
