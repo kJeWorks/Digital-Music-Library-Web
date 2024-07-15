@@ -4,6 +4,7 @@ import { useState } from "react";
 import { queryClient } from "../App";
 import { createArtist } from "../api/artists.api";
 import InputField from "./InputField";
+import InfoSnackBar from "./InfoSnackBar";
 
 type Props = {
   setEditMode(editMode: boolean): void;
@@ -12,7 +13,7 @@ type Props = {
 export default function CreateArtistForm(props: Props) {
   const { setEditMode } = props;
   const [artistName, setArtistName] = useState<string>('');
-  const { mutate, data, isPending, isError, error } = useMutation({
+  const { mutate, data, isPending, isError } = useMutation({
     mutationFn: createArtist,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['artists'] });
@@ -22,6 +23,11 @@ export default function CreateArtistForm(props: Props) {
 
   return (
     <Box width="100%" sx={{ mt: 5, display: { sm:'flex', xs: 'block' } }} >
+      {
+        isError && (
+          <InfoSnackBar infoArrived={isError} message="Error happened when creating artist. Please try again later" severity="error"/>
+        )
+      }
       <InputField
         id="artist-name"
         label="Artist Name"

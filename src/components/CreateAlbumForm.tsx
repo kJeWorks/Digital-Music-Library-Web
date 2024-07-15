@@ -6,6 +6,7 @@ import { createAlbum } from "../api/albums.api";
 import useArtists from "../hooks/useArtists";
 import { Artist } from "../types/ArtistType";
 import InputField from "./InputField";
+import InfoSnackBar from "./InfoSnackBar";
 
 type Props = {
   setEditMode: (editMode: boolean) => void;
@@ -16,17 +17,27 @@ export default function CreateAlbumForm(props: Props) {
   const [albumTitle, setAlbumTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [artistId, setArtistId] = useState<number>(-1);
-  const { mutate, data, isPending, isError, error } = useMutation({
+  const { mutate, isPending, isError } = useMutation({
     mutationFn: createAlbum,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['albums'] });
       setEditMode(false);
     }
   });
-  const { data: artistsData, isError: isErrorArtists, isLoading, error: errorArtists } = useArtists('');
+  const { data: artistsData, isError: isErrorArtists} = useArtists('');
 
   return (
     <Box width="100%" sx={{ mt: 5, display: { sm:'flex', xs: 'block' } }} >
+      {
+        isError && (
+          <InfoSnackBar infoArrived={isError} message="Error happened when creating the album. Please try again later" severity="error"/>
+        )
+      }
+      {
+        isError && (
+          <InfoSnackBar infoArrived={isErrorArtists} message="Error happened when fetching artists. Please try again later" severity="error"/>
+        )
+      }
       <InputField
         id="album-title"
         label="Album Title"

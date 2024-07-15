@@ -5,6 +5,7 @@ import { deleteAlbum } from '../api/albums.api';
 import { deleteArtist } from '../api/artists.api';
 import { Artist } from '../types/ArtistType';
 import { Album } from '../types/AlbumType';
+import InfoSnackBar from './InfoSnackBar';
 
 type Props = {
   id: string;
@@ -58,7 +59,7 @@ export default function ManageButtons({ id, setEdit, manageType }: Props) {
           <i>Deleting in progress...</i>
         </Box>
       )}
-      {/* <InfoSnackBar message={`${t('manage.error')} ${error?.message}`} infoArrived={isError} /> */}
+      <InfoSnackBar message="Error happened while deleting. Please try again later" infoArrived={isError} severity='error' />
     </Box>
   );
 }
