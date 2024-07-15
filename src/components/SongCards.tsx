@@ -9,6 +9,7 @@ import { queryClient } from "../App";
 import { useNavigate } from "react-router-dom";
 import InputField from "./InputField";
 import InfoSnackBar from "./InfoSnackBar";
+import ConfirmDialog from "./ConfirmDialog";
 
 type Props = {
   songs: Song[];
@@ -73,6 +74,8 @@ export default function SongCards(props: Props) {
     }
   });
 
+  const [open, setOpen] = useState(false);
+
   return (
     <>
       {
@@ -101,8 +104,9 @@ export default function SongCards(props: Props) {
                       <EditIcon sx={{ color: '#403D39' }}/>
                     </IconButton>
                   </Tooltip>
+                  <ConfirmDialog closeFunction={() => setOpen(false)} deleteFunction={() => deleteMutate(song.id)} deleteType="song" open={open}/>
                   <Tooltip title="Delete">
-                    <IconButton onClick={() => deleteMutate(song.id)}>
+                    <IconButton onClick={() => setOpen(true)}>
                       <DeleteIcon sx={{ color: 'red' }}/>
                     </IconButton>
                   </Tooltip>
