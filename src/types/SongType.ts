@@ -18,3 +18,9 @@ export type SongDetails = {
   length: string;
   album: Album;
 }
+
+export type SongUpdate = {
+  id: number;
+  title: string;
+  length: string;
+}
