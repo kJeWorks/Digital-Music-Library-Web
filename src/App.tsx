@@ -13,8 +13,8 @@ import AlbumDetails from "./pages/AlbumDetails";
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: Infinity,
-      refetchInterval: Infinity,
+      staleTime: 0,
+      refetchInterval: 1000,
     },
   },
 });

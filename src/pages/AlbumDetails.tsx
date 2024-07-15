@@ -1,15 +1,15 @@
 import { Autocomplete, Box, Button, Container, Grid, TextField, Typography } from "@mui/material";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useAlbum from "../hooks/useAlbum";
 import ManageButtons from "../components/ManageButtons";
 import { useEffect, useState } from "react";
-import { set } from "lodash";
 import useArtists from "../hooks/useArtists";
 import { Artist } from "../types/ArtistType";
 import { queryClient } from "../App";
 import { updateAlbum } from "../api/albums.api";
 import { useMutation } from "@tanstack/react-query";
 import { Song } from "../types/SongType";
+import SongCards from "../components/SongCards";
 
 export default function AlbumDetails() {
   const { id } = useParams() as { id: string };
@@ -19,6 +19,7 @@ export default function AlbumDetails() {
   const [description, setDescription] = useState<string>('');
   const [band, setBand] = useState<Artist>({} as Artist);
   const [songs, setSongs] = useState<Song[]>([]);
+  const navigate = useNavigate();
   const { data: artistsData, isError: isErrorArtists, isLoading: isLoadingArtist, error: errorArtists } = useArtists('');
   const { mutate, data: dataUpdate, isPending, isError: isErrorUpdate, error: errorUpdate } = useMutation({
     mutationFn: updateAlbum,
@@ -28,6 +29,7 @@ export default function AlbumDetails() {
         setAlbumName(dataUpdate.title);
         setDescription(dataUpdate.description);
         setBand(dataUpdate.band);
+        navigate(`/albums/${dataUpdate.id}`);
       }
     }
   });
@@ -51,7 +53,6 @@ export default function AlbumDetails() {
     setAlbumName(data?.title || '');
     setDescription(data?.description || '');
     setBand(data ? data.band : {} as Artist);
-    setSongs(data?.songs || []);
   }
 
   return (
@@ -213,22 +214,11 @@ export default function AlbumDetails() {
         }
       </Box>
       <Box width="100%" sx={{ mt: 5, mb: 5 }}>
-        <Grid container columnSpacing={7} rowSpacing={1}>
-          {data?.songs.map((song) => (
-            <Grid key={song.id} item xs={12} sm={6} md={4} lg={3}>
-              <Box sx={{ border: '2px solid #D0CEC6', borderRadius: '5px', p: 2 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <Typography variant="body1" sx={{ color: '#403D39', fontWeight: 300 }}>Song Title</Typography>
-                  <Typography variant="body1" sx={{ color: '#403D39', fontWeight: 300 }}>Length</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <Typography variant="h6" sx={{ color: '#403D39', fontWeight: 600 }}>{song.title}</Typography>
-                  <Typography variant="h6" sx={{ color: '#403D39', fontWeight: 600 }}>{song.length}</Typography>
-                </Box>
-              </Box>
-            </Grid>
-          ))}
-        </Grid>  
+        {
+          songs && (
+            <SongCards songs={songs} setSongs={setSongs} albumId={+id} />
+          )
+        }
       </Box>
     </Container>
   );
