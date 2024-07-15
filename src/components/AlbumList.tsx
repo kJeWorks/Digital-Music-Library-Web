@@ -5,10 +5,11 @@ import { Link } from "react-router-dom";
 
 type Props = {
   albums: Array<Album>;
+  handlePageChange: (page: string) => void;
 }
 
 export default function AlbumList(props: Props) {
-  const { albums } = props;
+  const { albums, handlePageChange } = props;
 
   return (
     <List sx={{ width: '100%', maxWidth: '100%', mt: 5 }}>
@@ -38,7 +39,7 @@ export default function AlbumList(props: Props) {
                 }
                 secondary={
                   <React.Fragment>
-                    <Link to={`/artists/${album.band.id}`} style={{ textDecoration: 'none' }}>
+                    <Link onClick={() => handlePageChange('/artists')} to={`/artists/${album.band.id}`} style={{ textDecoration: 'none' }}>
                       <Typography
                         sx={{ display: 'inline' }}
                         component="span"

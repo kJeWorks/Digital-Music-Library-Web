@@ -105,7 +105,7 @@ export default function Hero(props: Props) {
                         backgroundColor: '#C24C1E',
                       },
                     }}
-                    onClick={() => handlePageChange('/songs')}
+                    onClick={() => handlePageChange('/albums')}
                   >
                       Top Albums
                   </Button>
